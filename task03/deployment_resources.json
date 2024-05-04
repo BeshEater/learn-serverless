@@ -32,7 +32,7 @@
     ],
     "resource_type": "iam_role"
   },
-  "demo-api": {
+  "task3_api": {
     "resource_type": "api_gateway",
     "deploy_stage": "api",
     "dependencies": [],
@@ -42,7 +42,7 @@
 		"GET": {
                 "authorization_type": "NONE",
                 "integration_type": "lambda",
-                "lambda_name": "cmtr-e8ae546a-TestLambda"
+                "lambda_name": "cmtr-e8ae546a-hello_world"
             }
       }
     },
