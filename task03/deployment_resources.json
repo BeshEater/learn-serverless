@@ -42,7 +42,7 @@
 		"GET": {
                 "authorization_type": "NONE",
                 "integration_type": "lambda",
-                "lambda_name": "cmtr-e8ae546a-hello_world"
+                "lambda_name": "cmtr-e8ae546a-hello_world-test"
             }
       }
     },
