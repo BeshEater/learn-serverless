@@ -44,7 +44,7 @@
     ],
     "resource_type": "iam_role"
   },
-  "async_queue-test": {
+  "async_queue": {
     "resource_type": "sqs_queue",
     "fifo_queue": false,
     "region": "eu-central-1",
@@ -56,7 +56,7 @@
     "policy": {},
     "content_based_deduplication": false
   },
-  "lambda_topic-test": {
+  "lambda_topic": {
     "resource_type": "sns_topic",
     "region": "eu-central-1",
     "event_sources": []
