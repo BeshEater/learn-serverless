@@ -42,7 +42,8 @@
         "POST": {
           "authorization_type": "NONE",
           "integration_type": "lambda",
-          "lambda_name": "cmtr-e8ae546a-api_handler"
+          "lambda_name": "cmtr-e8ae546a-api_handler",
+          "enable_proxy": true
         }
       }
     },
