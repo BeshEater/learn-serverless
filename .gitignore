@@ -1,4 +1,5 @@
 .idea
+*.iml
 target
 .syndicate
 .syndicate-config-*
