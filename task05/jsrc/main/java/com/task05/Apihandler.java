@@ -17,13 +17,11 @@ import java.util.UUID;
 
 @LambdaHandler(lambdaName = "api_handler",
 	roleName = "ApiHandler-role",
-	isPublishVersion = true,
 	logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
 public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
 	private final Gson gson = new Gson();
-	private final String DYNAMO_DB_TABLE_NAME = "cmtr-e8ae546a-Events";
 
 	public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent gatewayEvent, Context context) {
 		System.out.println("API gateway event = " + gatewayEvent.toString());
@@ -41,8 +39,10 @@ public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, A
 		System.out.println("EVENT = " + event);
 
 		System.out.println("Trying to create DynamoDb client:");
+		var tableName = getDynamoDbTableName(context.getFunctionName());
+		System.out.println("Function name = " + context.getFunctionName() + " | table name = " + tableName);
 		var dynamoDbClient = DynamoDbEnhancedClient.create();
-		var dynamoDbTable = dynamoDbClient.table(DYNAMO_DB_TABLE_NAME, TableSchema.fromBean(Event.class));
+		var dynamoDbTable = dynamoDbClient.table(tableName, TableSchema.fromBean(Event.class));
 		System.out.println("DynamoDb client created");
 
 		System.out.println("Putting new item in DynamoDB");
@@ -61,5 +61,9 @@ public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, A
 		apiGatewayResponse.setBody(gson.toJson(response));
 		apiGatewayResponse.setHeaders(Map.of("Content-Type", "application/json"));
 		return apiGatewayResponse;
+	}
+
+	private String getDynamoDbTableName(String functionName) {
+		return functionName.replace("api_handler", "Events");
 	}
 }
