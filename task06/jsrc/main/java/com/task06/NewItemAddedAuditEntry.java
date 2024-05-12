@@ -22,13 +22,4 @@ public class NewItemAddedAuditEntry {
     public String getId() {
         return this.id;
     }
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class NewValue {
-        private String key;
-        private Long value;
-    }
 }

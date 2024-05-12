@@ -54,7 +54,7 @@ public class Auditproducer implements RequestHandler<DynamodbEvent, String> {
 				.id(UUID.randomUUID().toString())
 				.itemKey(key)
 				.modificationTime(OffsetDateTime.now().format(DateTimeFormatter.ISO_INSTANT))
-				.newValue(NewItemAddedAuditEntry.NewValue.builder()
+				.newValue(NewValue.builder()
 						.key(key)
 						.value(value)
 						.build()
@@ -68,7 +68,7 @@ public class Auditproducer implements RequestHandler<DynamodbEvent, String> {
 	}
 
 	private void saveExistingItemModifiedAuditEntry(String tableName, StreamRecord streamRecord) {
-		var oldImage = streamRecord.getNewImage();
+		var oldImage = streamRecord.getOldImage();
 		var newImage = streamRecord.getNewImage();
 		System.out.println("Old Image = " + oldImage);
 		System.out.println("New Image = " + newImage);

@@ -7,11 +7,7 @@
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
             "logs:PutLogEvents",
-            "dynamodb:GetItem",
-            "dynamodb:Query",
-            "dynamodb:PutItem",
-            "dynamodb:Batch*",
-            "dynamodb:DeleteItem",
+            "dynamodb:*",
             "ssm:PutParameter",
             "ssm:GetParameter",
             "kms:Decrypt"
@@ -34,10 +30,10 @@
   },
   "Configuration": {
     "resource_type": "dynamodb_table",
-    "hash_key_name": "id",
+    "hash_key_name": "key",
     "hash_key_type": "S",
-    "read_capacity": 5,
-    "write_capacity": 5,
+    "read_capacity": 3,
+    "write_capacity": 3,
     "global_indexes": [],
     "autoscaling": []
   },
@@ -45,8 +41,8 @@
     "resource_type": "dynamodb_table",
     "hash_key_name": "id",
     "hash_key_type": "S",
-    "read_capacity": 5,
-    "write_capacity": 5,
+    "read_capacity": 3,
+    "write_capacity": 3,
     "global_indexes": [],
     "autoscaling": []
   }
