@@ -12,8 +12,11 @@ import com.syndicate.deployment.model.DeploymentRuntime;
 import com.syndicate.deployment.model.RetentionSetting;
 
 @LambdaHandler(lambdaName = "api_handler",
-	roleName = "ApiHandler-role",
-	logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
+		roleName = "ApiHandler-role",
+		layers = {"open-meteo-layer"},
+		runtime = DeploymentRuntime.JAVA11,
+		architecture = Architecture.ARM64,
+		logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
 @LambdaLayer(
 		layerName = "open-meteo-layer",
