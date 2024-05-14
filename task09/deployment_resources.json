@@ -8,6 +8,7 @@
             "logs:CreateLogStream",
             "logs:PutLogEvents",
             "dynamodb:*",
+            "xray:*",
             "ssm:PutParameter",
             "ssm:GetParameter",
             "kms:Decrypt"
