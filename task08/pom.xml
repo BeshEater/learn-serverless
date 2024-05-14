@@ -25,11 +25,6 @@
             <artifactId>aws-lambda-java-core</artifactId>
             <version>1.2.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-lambda-java-events</artifactId>
-            <version>3.11.5</version>
-        </dependency>
         <!--Syndicate annotations-->
         <dependency>
             <groupId>net.sf.aws-syndicate</groupId>
@@ -38,15 +33,11 @@
         </dependency>
         <!-- Other tools -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
+            <groupId>demo.custom.sdk</groupId>
+            <artifactId>gson-downloaded-library</artifactId>
             <version>2.10.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/gson-2.10.1.jar</systemPath>
         </dependency>
     </dependencies>
 
