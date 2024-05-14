@@ -28,35 +28,93 @@
     ],
     "resource_type": "iam_role"
   },
-  "Tables": {
-    "resource_type": "dynamodb_table",
-    "hash_key_name": "id",
-    "hash_key_type": "S",
-    "read_capacity": 3,
-    "write_capacity": 3,
-    "global_indexes": [],
-    "autoscaling": []
+  "simple-booking-userpool": {
+    "resource_type": "cognito_idp",
+    "password_policy": {
+      "minimum_length": 12,
+      "require_uppercase": false,
+      "require_symbols": false,
+      "require_lowercase": false,
+      "require_numbers": false
+    },
+    "auto_verified_attributes": [
+      "email"
+    ],
+    "username_attributes": [
+      "email"
+    ],
+    "custom_attributes": [
+      {
+        "name": "fullname",
+        "type": "String"
+      },
+      {
+        "name": "birthday",
+        "type": "DateTime"
+      }
+    ],
+    "client": {}
   },
   "task10_api": {
     "resource_type": "api_gateway",
     "deploy_stage": "api",
     "dependencies": [],
+    "minimum_compression_size": 0,
+    "authorizers": {
+      "demo-authorizer": {
+        "type": "COGNITO_USER_POOLS",
+        "identity_source": "method.request.header.Authorization",
+        "ttl": 300,
+        "user_pools": [
+          "simple-booking-userpool"
+        ]
+      }
+    },
     "resources": {
-      "/events": {
+      "/tables": {
         "enable_cors": false,
         "POST": {
-          "authorization_type": "NONE",
+          "authorization_type": "COGNITO_USER_POOLS",
+          "integration_type": "lambda",
+          "lambda_name": "api_handler",
+          "enable_proxy": true
+        },
+        "GET": {
+          "authorization_type": "COGNITO_USER_POOLS",
+          "integration_type": "lambda",
+          "lambda_name": "api_handler",
+          "enable_proxy": true
+        }
+      },
+      "/reservations ": {
+        "enable_cors": false,
+        "POST": {
+          "authorization_type": "COGNITO_USER_POOLS",
+          "integration_type": "lambda",
+          "lambda_name": "api_handler",
+          "enable_proxy": true
+        },
+        "GET": {
+          "authorization_type": "COGNITO_USER_POOLS",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
           "enable_proxy": true
         }
       }
-    },
-    "minimum_compression_size": 0
+    }
+  },
+  "Tables": {
+    "resource_type": "dynamodb_table",
+    "hash_key_name": "id",
+    "hash_key_type": "N",
+    "read_capacity": 3,
+    "write_capacity": 3,
+    "global_indexes": [],
+    "autoscaling": []
   },
   "Reservations": {
     "resource_type": "dynamodb_table",
-    "hash_key_name": "id",
+    "hash_key_name": "reservationId",
     "hash_key_type": "S",
     "read_capacity": 3,
     "write_capacity": 3,
