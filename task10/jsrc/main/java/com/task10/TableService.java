@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class TableService {
     private final Gson gson = new Gson();
 
-    public APIGatewayProxyResponseEvent handleGetRequest(APIGatewayProxyRequestEvent requestEvent) {
+    public APIGatewayProxyResponseEvent handleListTablesRequest(APIGatewayProxyRequestEvent requestEvent) {
         var dynamoDbTable = getDynamoDbTable();
         var tableDbEntries = dynamoDbTable.scan()
                 .items()
@@ -27,7 +27,20 @@ public class TableService {
         return Utils.createSuccessfulResponseEvent(response);
     }
 
-    public APIGatewayProxyResponseEvent handlePostRequest(APIGatewayProxyRequestEvent requestEvent) {
+    public APIGatewayProxyResponseEvent handleGetTableRequest(APIGatewayProxyRequestEvent requestEvent) {
+        var dynamoDbTable = getDynamoDbTable();
+        var tableDbEntries = dynamoDbTable.scan()
+                .items()
+                .stream()
+                .collect(Collectors.toList());
+
+        var response = TablesGetResponse.from(tableDbEntries);
+        System.out.println("TablesGetResponse = " + response);
+
+        return Utils.createSuccessfulResponseEvent(response);
+    }
+
+    public APIGatewayProxyResponseEvent handleCreateTableRequest(APIGatewayProxyRequestEvent requestEvent) {
         var request = gson.fromJson(requestEvent.getBody(), TablePostRequest.class);
         System.out.println("TablePostRequest = " + request);
 

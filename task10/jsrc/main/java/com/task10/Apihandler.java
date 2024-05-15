@@ -32,20 +32,26 @@ public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, A
 			responseEvent = userService.handleSigninRequest(gatewayEvent);
 		}
 
-		if (gatewayEvent.getPath().equals("/tables")) {
-			if (gatewayEvent.getHttpMethod().equals("GET")) {
-				responseEvent = tableService.handleGetRequest(gatewayEvent);
+		if (gatewayEvent.getPath().startsWith("/tables")) {
+			if (gatewayEvent.getPath().equals("/tables")) {
+				if (gatewayEvent.getHttpMethod().equals("GET")) {
+					responseEvent = tableService.handleListTablesRequest(gatewayEvent);
+				}
+				if (gatewayEvent.getHttpMethod().equals("POST")) {
+					responseEvent = tableService.handleCreateTableRequest(gatewayEvent);
+				}
 			}
-			if (gatewayEvent.getHttpMethod().equals("POST")) {
-				responseEvent = tableService.handlePostRequest(gatewayEvent);
+			if (gatewayEvent.getPathParameters().get("tableid") != null) {
+				responseEvent = tableService.handleGetTableRequest(gatewayEvent);
 			}
 		}
+
 		if (gatewayEvent.getPath().equals("/reservations")) {
 			if (gatewayEvent.getHttpMethod().equals("GET")) {
-				responseEvent = reservationService.handleGetRequest(gatewayEvent);
+				responseEvent = reservationService.handleGetReservationRequest(gatewayEvent);
 			}
 			if (gatewayEvent.getHttpMethod().equals("POST")) {
-				responseEvent = reservationService.handlePostRequest(gatewayEvent);
+				responseEvent = reservationService.handleCreateReservationRequest(gatewayEvent);
 			}
 		}
         return responseEvent;

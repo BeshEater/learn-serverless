@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ReservationService {
     private final Gson gson = new Gson();
 
-    public APIGatewayProxyResponseEvent handleGetRequest(APIGatewayProxyRequestEvent requestEvent) {
+    public APIGatewayProxyResponseEvent handleGetReservationRequest(APIGatewayProxyRequestEvent requestEvent) {
         var dynamoDbTable = getDynamoDbTable();
         var tableDbEntries = dynamoDbTable.scan()
                 .items()
@@ -27,7 +27,7 @@ public class ReservationService {
         return Utils.createSuccessfulResponseEvent(response);
     }
 
-    public APIGatewayProxyResponseEvent handlePostRequest(APIGatewayProxyRequestEvent requestEvent) {
+    public APIGatewayProxyResponseEvent handleCreateReservationRequest(APIGatewayProxyRequestEvent requestEvent) {
         var request = gson.fromJson(requestEvent.getBody(), ReservationPostRequest.class);
         System.out.println("ReservationPostRequest = " + request);
 
