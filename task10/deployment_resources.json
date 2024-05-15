@@ -43,16 +43,6 @@
     "username_attributes": [
       "email"
     ],
-    "custom_attributes": [
-      {
-        "name": "fullname",
-        "type": "String"
-      },
-      {
-        "name": "birthday",
-        "type": "DateTime"
-      }
-    ],
     "client": {}
   },
   "task10_api": {
@@ -61,7 +51,7 @@
     "dependencies": [],
     "minimum_compression_size": 0,
     "authorizers": {
-      "demo-authorizer": {
+      "authorizer": {
         "type": "COGNITO_USER_POOLS",
         "identity_source": "method.request.header.Authorization",
         "ttl": 300,
@@ -71,34 +61,88 @@
       }
     },
     "resources": {
+      "/signup": {
+        "enable_cors": false,
+        "POST": {
+          "authorization_type": "NONE",
+          "integration_type": "lambda",
+          "lambda_name": "api_handler",
+          "enable_proxy": true,
+          "api_key_required": false,
+          "method_request_parameters": {},
+          "integration_request_body_template": {},
+          "responses": [],
+          "integration_responses": [],
+          "default_error_pattern": true
+        }
+      },
+      "/signin": {
+        "enable_cors": false,
+        "POST": {
+          "authorization_type": "NONE",
+          "integration_type": "lambda",
+          "lambda_name": "api_handler",
+          "enable_proxy": true,
+          "api_key_required": false,
+          "method_request_parameters": {},
+          "integration_request_body_template": {},
+          "responses": [],
+          "integration_responses": [],
+          "default_error_pattern": true
+        }
+      },
       "/tables": {
         "enable_cors": false,
         "POST": {
-          "authorization_type": "COGNITO_USER_POOLS",
+          "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
-          "enable_proxy": true
+          "enable_proxy": true,
+          "api_key_required": false,
+          "method_request_parameters": {},
+          "integration_request_body_template": {},
+          "responses": [],
+          "integration_responses": [],
+          "default_error_pattern": true
         },
         "GET": {
-          "authorization_type": "COGNITO_USER_POOLS",
+          "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
-          "enable_proxy": true
+          "enable_proxy": true,
+          "api_key_required": false,
+          "method_request_parameters": {},
+          "integration_request_body_template": {},
+          "responses": [],
+          "integration_responses": [],
+          "default_error_pattern": true
         }
       },
-      "/reservations ": {
+      "/reservations": {
         "enable_cors": false,
         "POST": {
-          "authorization_type": "COGNITO_USER_POOLS",
+          "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
-          "enable_proxy": true
+          "enable_proxy": true,
+          "api_key_required": false,
+          "method_request_parameters": {},
+          "integration_request_body_template": {},
+          "responses": [],
+          "integration_responses": [],
+          "default_error_pattern": true
         },
         "GET": {
-          "authorization_type": "COGNITO_USER_POOLS",
+          "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
-          "enable_proxy": true
+          "enable_proxy": true,
+          "api_key_required": false,
+          "method_request_parameters": {},
+          "integration_request_body_template": {},
+          "responses": [],
+          "integration_responses": [],
+          "default_error_pattern": true
         }
       }
     }

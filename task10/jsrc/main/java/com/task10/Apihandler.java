@@ -22,6 +22,8 @@ public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, A
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent gatewayEvent, Context context) {
 		FUNCTION_NAME = context.getFunctionName();
         System.out.println("API gateway event = " + gatewayEvent.toString());
+		System.out.println("API gateway path = " + gatewayEvent.getPath());
+		System.out.println("API gateway path parameters = " + gatewayEvent.getPathParameters());
 
 		APIGatewayProxyResponseEvent responseEvent = null;
 		if (gatewayEvent.getPath().equals("/tables")) {
