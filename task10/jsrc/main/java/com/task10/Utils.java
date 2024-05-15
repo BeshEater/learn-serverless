@@ -20,12 +20,18 @@ public class Utils {
         return apiGatewayResponse;
     }
 
+    public static APIGatewayProxyResponseEvent createSuccessfulResponseEvent() {
+        var apiGatewayResponse = new APIGatewayProxyResponseEvent();
+        apiGatewayResponse.setStatusCode(200);
+        return apiGatewayResponse;
+    }
+
     public static <T> DynamoDbTable<T> getDynamoDbTable(String tableName, Class<T> beanClass) {
-        var fullTableName = getDynamoDbTableNameWithPrefixAndSuffix(tableName);
+        var fullTableName = getResourceNameWithPrefixAndSuffix(tableName);
         return dynamoDbClient.table(fullTableName, TableSchema.fromBean(beanClass));
     }
 
-    private static String getDynamoDbTableNameWithPrefixAndSuffix(String tableName) {
-        return Apihandler.FUNCTION_NAME.replace("api_handler", tableName);
+    public static String getResourceNameWithPrefixAndSuffix(String resourceName) {
+        return Apihandler.FUNCTION_NAME.replace("api_handler", resourceName);
     }
 }

@@ -8,6 +8,7 @@
             "logs:CreateLogStream",
             "logs:PutLogEvents",
             "dynamodb:*",
+            "cognito-idp:*",
             "ssm:PutParameter",
             "ssm:GetParameter",
             "kms:Decrypt"
@@ -105,6 +106,21 @@
           "integration_responses": [],
           "default_error_pattern": true
         },
+        "GET": {
+          "authorization_type": "authorizer",
+          "integration_type": "lambda",
+          "lambda_name": "api_handler",
+          "enable_proxy": true,
+          "api_key_required": false,
+          "method_request_parameters": {},
+          "integration_request_body_template": {},
+          "responses": [],
+          "integration_responses": [],
+          "default_error_pattern": true
+        }
+      },
+      "/tables/{tableid}": {
+        "enable_cors": false,
         "GET": {
           "authorization_type": "authorizer",
           "integration_type": "lambda",
