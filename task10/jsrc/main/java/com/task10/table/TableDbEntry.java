@@ -17,7 +17,7 @@ public class TableDbEntry {
     private Long number;
     private Long places;
     private Boolean isVip;
-    private Boolean minOrder;
+    private Long minOrder;
 
     @DynamoDbPartitionKey
     public Long getId() {

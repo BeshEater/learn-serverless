@@ -9,8 +9,10 @@ import com.task10.user.UserSignupRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminCreateUserRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminSetUserPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUserPoolClientsRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUserPoolsRequest;
 
 import java.util.Map;
@@ -24,13 +26,14 @@ public class UserService {
 
         var cognitoClient = CognitoIdentityProviderClient.create();
         var userPoolId = getUserPoolId(cognitoClient);
+        var clientId = getClientId(cognitoClient, userPoolId);
         try {
             var userAttrs = AttributeType.builder()
                     .name("email")
                     .value(request.getEmail())
                     .build();
 
-            var userRequest = AdminCreateUserRequest.builder()
+            var createUserRequest = AdminCreateUserRequest.builder()
                     .userPoolId(userPoolId)
                     .temporaryPassword(request.getPassword())
                     .username(request.getEmail())
@@ -38,8 +41,17 @@ public class UserService {
                     .messageAction("SUPPRESS")
                     .build();
 
-            var response = cognitoClient.adminCreateUser(userRequest);
-            System.out.println("User " + response.user().username() + "is created. Status: " + response.user().userStatus());
+            var setUserPasswordRequest = AdminSetUserPasswordRequest.builder()
+                    .userPoolId(userPoolId)
+                    .username(request.getEmail())
+                    .password(request.getPassword())
+                    .permanent(true)
+                    .build();
+
+            var createUserResponse = cognitoClient.adminCreateUser(createUserRequest);
+            var setUserPasswordResponse = cognitoClient.adminSetUserPassword(setUserPasswordRequest);
+            System.out.println("createUserResponse = " + createUserResponse);
+            System.out.println("setUserPasswordResponse = " + setUserPasswordResponse);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -50,10 +62,11 @@ public class UserService {
 
     public APIGatewayProxyResponseEvent handleSigninRequest(APIGatewayProxyRequestEvent requestEvent) {
         var request = gson.fromJson(requestEvent.getBody(), UserSignInRequest.class);
-        System.out.println("UserSignupRequest = " + request);
+        System.out.println("UserSigninRequest = " + request);
 
         var cognitoClient = CognitoIdentityProviderClient.create();
         var userPoolId = getUserPoolId(cognitoClient);
+        var clientId = getClientId(cognitoClient, userPoolId);
 
         var authParams = Map.of(
                 "USERNAME", request.getEmail(),
@@ -63,18 +76,17 @@ public class UserService {
         var authRequest = AdminInitiateAuthRequest.builder()
                 .authFlow(AuthFlowType.ADMIN_NO_SRP_AUTH)
                 .userPoolId(userPoolId)
+                .clientId(clientId)
                 .authParameters(authParams)
                 .build();
 
         var authResponse = cognitoClient.adminInitiateAuth(authRequest);
-
         System.out.println("Auth response: " + authResponse);
-
         System.out.println("ID Token: " + authResponse.authenticationResult().idToken());
         System.out.println("Access Token: " + authResponse.authenticationResult().accessToken());
         System.out.println("Refresh Token: " + authResponse.authenticationResult().refreshToken());
 
-        var response = new UserSignInResponse(authResponse.authenticationResult().accessToken());
+        var response = new UserSignInResponse(authResponse.authenticationResult().idToken());
 
         return Utils.createSuccessfulResponseEvent(response);
     }
@@ -103,5 +115,27 @@ public class UserService {
         System.out.println("UserPoolId = " + userPoolId);
 
         return userPoolId;
+    }
+
+    private String getClientId(CognitoIdentityProviderClient cognitoClient, String userPoolId) {
+        String clientId = "";
+        try {
+            var request = ListUserPoolClientsRequest.builder()
+                    .userPoolId(userPoolId)
+                    .build();
+
+            var response = cognitoClient.listUserPoolClients(request);
+            response.userPoolClients().forEach(userPoolClient -> {
+                System.out.println("User pool client " + userPoolClient.clientName() + ", Pool ID "
+                        + userPoolClient.userPoolId() + ", Client ID " + userPoolClient.clientId());
+            });
+
+            clientId = response.userPoolClients().get(0).clientId();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Client ID = " + clientId);
+
+        return clientId;
     }
 }

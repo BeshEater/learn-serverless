@@ -44,7 +44,16 @@
     "username_attributes": [
       "email"
     ],
-    "client": {}
+    "client": {
+      "client_name": "client-app",
+      "generate_secret": false,
+      "explicit_auth_flows": [
+        "ALLOW_ADMIN_USER_PASSWORD_AUTH",
+        "ALLOW_CUSTOM_AUTH",
+        "ALLOW_USER_SRP_AUTH",
+        "ALLOW_REFRESH_TOKEN_AUTH"
+      ]
+    }
   },
   "task10_api": {
     "resource_type": "api_gateway",

@@ -14,5 +14,5 @@ public class TablePostRequest {
     private Long number;
     private Long places;
     private Boolean isVip;
-    private Boolean minOrder;
+    private Long minOrder;
 }

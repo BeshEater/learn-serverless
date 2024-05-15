@@ -14,7 +14,7 @@ public class TableGetResponse {
     private Long number;
     private Long places;
     private Boolean isVip;
-    private Boolean minOrder;
+    private Long minOrder;
 
     public static TableGetResponse from(TableDbEntry dynamoDbEntry) {
         return TableGetResponse.builder()
