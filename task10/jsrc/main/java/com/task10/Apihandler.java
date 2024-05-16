@@ -23,38 +23,41 @@ public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, A
 
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent gatewayEvent, Context context) {
 		FUNCTION_NAME = context.getFunctionName();
-        System.out.println("API gateway event = " + gatewayEvent.toString());
-		System.out.println("API gateway path = " + gatewayEvent.getPath());
-		System.out.println("API gateway path parameters = " + gatewayEvent.getPathParameters());
+		var path = gatewayEvent.getPath();
+		var pathParameters = gatewayEvent.getPathParameters();
+		var httpMethod = gatewayEvent.getHttpMethod();
+        System.out.println("API gateway event = " + gatewayEvent);
+		System.out.println("API gateway path = " + path);
+		System.out.println("API gateway path parameters = " + pathParameters);
 
 		APIGatewayProxyResponseEvent responseEvent = null;
-		if (gatewayEvent.getPath().equals("/signup")) {
+		if (path.equals("/signup")) {
 			responseEvent = userService.handleSignupRequest(gatewayEvent);
 		}
-		if (gatewayEvent.getPath().equals("/signin")) {
+		if (path.equals("/signin")) {
 			responseEvent = userService.handleSigninRequest(gatewayEvent);
 		}
 
-		if (gatewayEvent.getPath().startsWith("/tables")) {
+		if (path.startsWith("/tables")) {
 			if (gatewayEvent.getPath().equals("/tables")) {
-				if (gatewayEvent.getHttpMethod().equals("GET")) {
+				if (httpMethod.equals("GET")) {
 					responseEvent = tableService.handleListTablesRequest();
 				}
-				if (gatewayEvent.getHttpMethod().equals("POST")) {
+				if (httpMethod.equals("POST")) {
 					responseEvent = tableService.handleCreateTableRequest(gatewayEvent);
 				}
 			}
-			if (gatewayEvent.getPathParameters().get("tableid") != null) {
+			if (pathParameters != null && pathParameters.get("tableid") != null) {
 				var tableId = Long.valueOf(gatewayEvent.getPathParameters().get("tableid"));
 				responseEvent = tableService.handleGetTableRequest(tableId);
 			}
 		}
 
-		if (gatewayEvent.getPath().equals("/reservations")) {
-			if (gatewayEvent.getHttpMethod().equals("GET")) {
+		if (path.equals("/reservations")) {
+			if (httpMethod.equals("GET")) {
 				responseEvent = reservationService.handleListReservationsRequest();
 			}
-			if (gatewayEvent.getHttpMethod().equals("POST")) {
+			if (httpMethod.equals("POST")) {
 				responseEvent = reservationService.handleCreateReservationRequest(gatewayEvent);
 			}
 		}
