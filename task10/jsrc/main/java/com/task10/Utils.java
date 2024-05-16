@@ -26,6 +26,12 @@ public class Utils {
         return apiGatewayResponse;
     }
 
+    public static APIGatewayProxyResponseEvent createUnsuccessfulResponseEvent() {
+        var apiGatewayResponse = new APIGatewayProxyResponseEvent();
+        apiGatewayResponse.setStatusCode(400);
+        return apiGatewayResponse;
+    }
+
     public static <T> DynamoDbTable<T> getDynamoDbTable(String tableName, Class<T> beanClass) {
         var fullTableName = getResourceNameWithPrefixAndSuffix(tableName);
         return dynamoDbClient.table(fullTableName, TableSchema.fromBean(beanClass));

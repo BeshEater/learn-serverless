@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @DynamoDbBean
 public class ReservationDbEntry {
-    private String reservationId;
+    private String id;
     private Long tableNumber;
     private String clientName;
     private String phoneNumber;
@@ -24,13 +24,13 @@ public class ReservationDbEntry {
     private String slotTimeEnd;
 
     @DynamoDbPartitionKey
-    public String getReservationId() {
-        return this.reservationId;
+    public String getId() {
+        return this.id;
     }
 
     public static ReservationDbEntry from(ReservationPostRequest request) {
         return ReservationDbEntry.builder()
-                .reservationId(UUID.randomUUID().toString())
+                .id(UUID.randomUUID().toString())
                 .tableNumber(request.getTableNumber())
                 .clientName(request.getClientName())
                 .phoneNumber(request.getPhoneNumber())

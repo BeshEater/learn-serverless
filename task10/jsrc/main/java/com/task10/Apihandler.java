@@ -23,10 +23,21 @@ public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, A
 
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent gatewayEvent, Context context) {
 		FUNCTION_NAME = context.getFunctionName();
+
+		try {
+			return route(gatewayEvent);
+		} catch (Exception ex) {
+			System.out.println("Handled exception during routing: ");
+			ex.printStackTrace();
+			return Utils.createUnsuccessfulResponseEvent();
+		}
+    }
+
+	private APIGatewayProxyResponseEvent route(APIGatewayProxyRequestEvent gatewayEvent) {
 		var path = gatewayEvent.getPath();
 		var pathParameters = gatewayEvent.getPathParameters();
 		var httpMethod = gatewayEvent.getHttpMethod();
-        System.out.println("API gateway event = " + gatewayEvent);
+		System.out.println("API gateway event = " + gatewayEvent);
 		System.out.println("API gateway path = " + path);
 		System.out.println("API gateway path parameters = " + pathParameters);
 
@@ -61,6 +72,7 @@ public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, A
 				responseEvent = reservationService.handleCreateReservationRequest(gatewayEvent);
 			}
 		}
-        return responseEvent;
-    }
+
+		return responseEvent;
+	}
 }
