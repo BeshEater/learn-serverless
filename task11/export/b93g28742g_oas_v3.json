@@ -180,7 +180,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/TableList"
                 }
               }
             }
@@ -215,6 +215,16 @@
       "post": {
         "description": "Save new table",
         "summary": "Save new table with defined fields",
+        "requestBody": {
+          "description": "Create new table",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Table"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "200 response",
@@ -228,7 +238,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/TableId"
                 }
               }
             }
@@ -522,7 +532,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/Table"
                 }
               }
             }
@@ -621,6 +631,61 @@
       "Empty": {
         "title": "Empty Schema",
         "type": "object"
+      },
+      "TableId": {
+        "description": "A simple ID response",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 10,
+            "description": "Unique ID"
+          }
+        }
+      },
+      "TableList": {
+        "description": "List of Tables",
+        "type": "object",
+        "properties": {
+          "tables": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Table"
+            }
+          }
+        }
+      },
+      "Table": {
+        "description": "A simple table object",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 10,
+            "description": "Unique ID"
+          },
+          "number": {
+            "type": "integer",
+            "example": 10,
+            "description": "number of the table"
+          },
+          "places": {
+            "type": "integer",
+            "example": 10,
+            "description": "amount of people to sit at the table"
+          },
+          "isVip": {
+            "type": "boolean",
+            "example": true,
+            "description": "is the table in the VIP hall"
+          },
+          "minOrder": {
+            "type": "integer",
+            "example": 10,
+            "description": "table deposit required to book it",
+            "required": false
+          }
+        }
       }
     },
     "securitySchemes": {
