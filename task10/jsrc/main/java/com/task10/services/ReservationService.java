@@ -56,6 +56,7 @@ public class ReservationService {
     public void checkIfNotOverlapsWithOtherReservation(ReservationPostRequest request) {
         var potentiallyConflictingReservations =reservationRepository.listReservations()
                 .stream()
+                .filter(reservationDbEntry -> reservationDbEntry.getTableNumber().equals(request.getTableNumber()))
                 .filter(reservationDbEntry -> reservationDbEntry.getDate().equals(request.getDate()))
                 .collect(Collectors.toList());
 
