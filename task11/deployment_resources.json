@@ -72,7 +72,7 @@
     },
     "resources": {
       "/signup": {
-        "enable_cors": false,
+        "enable_cors": true,
         "POST": {
           "authorization_type": "NONE",
           "integration_type": "lambda",
@@ -87,7 +87,7 @@
         }
       },
       "/signin": {
-        "enable_cors": false,
+        "enable_cors": true,
         "POST": {
           "authorization_type": "NONE",
           "integration_type": "lambda",
@@ -102,7 +102,7 @@
         }
       },
       "/tables": {
-        "enable_cors": false,
+        "enable_cors": true,
         "POST": {
           "authorization_type": "authorizer",
           "integration_type": "lambda",
@@ -129,7 +129,7 @@
         }
       },
       "/tables/{tableid}": {
-        "enable_cors": false,
+        "enable_cors": true,
         "GET": {
           "authorization_type": "authorizer",
           "integration_type": "lambda",
@@ -144,7 +144,7 @@
         }
       },
       "/reservations": {
-        "enable_cors": false,
+        "enable_cors": true,
         "POST": {
           "authorization_type": "authorizer",
           "integration_type": "lambda",

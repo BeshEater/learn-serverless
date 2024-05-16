@@ -6,7 +6,7 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public class Utils {
     private static final DynamoDbEnhancedClient dynamoDbClient = DynamoDbEnhancedClient.create();
@@ -14,22 +14,34 @@ public class Utils {
     public static APIGatewayProxyResponseEvent createSuccessfulResponseEvent(Object body) {
         var gson = new Gson();
         var apiGatewayResponse = new APIGatewayProxyResponseEvent();
+        setDefaultHeaders(apiGatewayResponse);
+        apiGatewayResponse.getHeaders().put("Content-Type", "application/json");
         apiGatewayResponse.setStatusCode(200);
         apiGatewayResponse.setBody(gson.toJson(body));
-        apiGatewayResponse.setHeaders(Map.of("Content-Type", "application/json"));
         return apiGatewayResponse;
     }
 
     public static APIGatewayProxyResponseEvent createSuccessfulResponseEvent() {
         var apiGatewayResponse = new APIGatewayProxyResponseEvent();
+        setDefaultHeaders(apiGatewayResponse);
         apiGatewayResponse.setStatusCode(200);
         return apiGatewayResponse;
     }
 
     public static APIGatewayProxyResponseEvent createUnsuccessfulResponseEvent() {
         var apiGatewayResponse = new APIGatewayProxyResponseEvent();
+        setDefaultHeaders(apiGatewayResponse);
         apiGatewayResponse.setStatusCode(400);
         return apiGatewayResponse;
+    }
+
+    private static void setDefaultHeaders(APIGatewayProxyResponseEvent event) {
+        var headers = new HashMap<String, String>();
+        headers.put("Access-Control-Allow-Headers", "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token");
+        headers.put("Access-Control-Allow-Origin", "*");
+        headers.put("Access-Control-Allow-Methods", "*");
+        headers.put("Accept-Version", "*");
+        event.setHeaders(headers);
     }
 
     public static <T> DynamoDbTable<T> getDynamoDbTable(String tableName, Class<T> beanClass) {
