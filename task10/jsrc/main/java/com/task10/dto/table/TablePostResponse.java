@@ -1,4 +1,4 @@
-package com.task10.reservation;
+package com.task10.dto.table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservationPostResponse {
-    private String reservationId;
+public class TablePostResponse {
+    private Long id;
 }

@@ -1,4 +1,4 @@
-package com.task10.table;
+package com.task10.dto.table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

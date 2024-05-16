@@ -1,25 +1,21 @@
-package com.task10;
+package com.task10.services;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-import com.task10.reservation.ReservationDbEntry;
-import com.task10.reservation.ReservationPostRequest;
-import com.task10.reservation.ReservationPostResponse;
-import com.task10.reservation.ReservationsGetResponse;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
-
-import java.util.stream.Collectors;
+import com.task10.Utils;
+import com.task10.dto.reservation.ReservationDbEntry;
+import com.task10.dto.reservation.ReservationPostRequest;
+import com.task10.dto.reservation.ReservationPostResponse;
+import com.task10.dto.reservation.ReservationsGetResponse;
+import com.task10.repositories.ReservationRepository;
 
 public class ReservationService {
     private final Gson gson = new Gson();
+    private final ReservationRepository reservationRepository = new ReservationRepository();
 
-    public APIGatewayProxyResponseEvent handleGetReservationRequest(APIGatewayProxyRequestEvent requestEvent) {
-        var dynamoDbTable = getDynamoDbTable();
-        var tableDbEntries = dynamoDbTable.scan()
-                .items()
-                .stream()
-                .collect(Collectors.toList());
+    public APIGatewayProxyResponseEvent handleListReservationsRequest() {
+        var tableDbEntries = reservationRepository.listReservations();
 
         var response = ReservationsGetResponse.from(tableDbEntries);
         System.out.println("ReservationsGetResponse = " + response);
@@ -33,16 +29,11 @@ public class ReservationService {
 
         var reservationDbEntry = ReservationDbEntry.from(request);
         System.out.println("ReservationDbEntry = " + reservationDbEntry);
-        var dynamoDbTable = getDynamoDbTable();
-        dynamoDbTable.putItem(reservationDbEntry);
+        reservationRepository.saveReservation(reservationDbEntry);
 
         var response = new ReservationPostResponse(reservationDbEntry.getReservationId());
         System.out.println("ReservationPostResponse = " + response);
 
         return Utils.createSuccessfulResponseEvent(response);
-    }
-
-    private DynamoDbTable<ReservationDbEntry> getDynamoDbTable() {
-        return Utils.getDynamoDbTable("Reservations", ReservationDbEntry.class);
     }
 }

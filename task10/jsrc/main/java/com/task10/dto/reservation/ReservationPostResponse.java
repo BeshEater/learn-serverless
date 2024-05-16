@@ -1,4 +1,4 @@
-package com.task10.user;
+package com.task10.dto.reservation;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSignInRequest {
-    private String email;
-    private String password;
+public class ReservationPostResponse {
+    private String reservationId;
 }

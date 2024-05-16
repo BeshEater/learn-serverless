@@ -1,16 +1,16 @@
-package com.task10;
+package com.task10.services;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-import com.task10.user.UserSignInRequest;
-import com.task10.user.UserSignInResponse;
-import com.task10.user.UserSignupRequest;
+import com.task10.Utils;
+import com.task10.dto.user.UserSignInRequest;
+import com.task10.dto.user.UserSignInResponse;
+import com.task10.dto.user.UserSignupRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminCreateUserRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminSetUserPasswordRequest;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUserPoolClientsRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUserPoolsRequest;
@@ -28,16 +28,10 @@ public class UserService {
         var userPoolId = getUserPoolId(cognitoClient);
         var clientId = getClientId(cognitoClient, userPoolId);
         try {
-            var userAttrs = AttributeType.builder()
-                    .name("email")
-                    .value(request.getEmail())
-                    .build();
-
             var createUserRequest = AdminCreateUserRequest.builder()
                     .userPoolId(userPoolId)
                     .temporaryPassword(request.getPassword())
                     .username(request.getEmail())
-//                    .userAttributes(userAttrs)
                     .messageAction("SUPPRESS")
                     .build();
 

@@ -1,4 +1,4 @@
-package com.task10.user;
+package com.task10.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSignupRequest {
-    private String firstName;
-    private String lastName;
+public class UserSignInRequest {
     private String email;
     private String password;
 }

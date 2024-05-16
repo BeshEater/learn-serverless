@@ -1,4 +1,4 @@
-package com.task10.reservation;
+package com.task10.dto.reservation;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.task10.table;
+package com.task10.dto.table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TablePostResponse {
+public class TablePostRequest {
     private Long id;
+    private Long number;
+    private Long places;
+    private Boolean isVip;
+    private Long minOrder;
 }

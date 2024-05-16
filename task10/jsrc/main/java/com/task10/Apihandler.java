@@ -6,6 +6,9 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.syndicate.deployment.annotations.lambda.LambdaHandler;
 import com.syndicate.deployment.model.RetentionSetting;
+import com.task10.services.ReservationService;
+import com.task10.services.TableService;
+import com.task10.services.UserService;
 
 @LambdaHandler(lambdaName = "api_handler",
         roleName = "ApiHandler-role",
@@ -35,20 +38,21 @@ public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, A
 		if (gatewayEvent.getPath().startsWith("/tables")) {
 			if (gatewayEvent.getPath().equals("/tables")) {
 				if (gatewayEvent.getHttpMethod().equals("GET")) {
-					responseEvent = tableService.handleListTablesRequest(gatewayEvent);
+					responseEvent = tableService.handleListTablesRequest();
 				}
 				if (gatewayEvent.getHttpMethod().equals("POST")) {
 					responseEvent = tableService.handleCreateTableRequest(gatewayEvent);
 				}
 			}
 			if (gatewayEvent.getPathParameters().get("tableid") != null) {
-				responseEvent = tableService.handleGetTableRequest(gatewayEvent);
+				var tableId = Long.valueOf(gatewayEvent.getPathParameters().get("tableid"));
+				responseEvent = tableService.handleGetTableRequest(tableId);
 			}
 		}
 
 		if (gatewayEvent.getPath().equals("/reservations")) {
 			if (gatewayEvent.getHttpMethod().equals("GET")) {
-				responseEvent = reservationService.handleGetReservationRequest(gatewayEvent);
+				responseEvent = reservationService.handleListReservationsRequest();
 			}
 			if (gatewayEvent.getHttpMethod().equals("POST")) {
 				responseEvent = reservationService.handleCreateReservationRequest(gatewayEvent);

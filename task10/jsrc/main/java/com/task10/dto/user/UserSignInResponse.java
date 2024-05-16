@@ -1,4 +1,4 @@
-package com.task10.user;
+package com.task10.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
