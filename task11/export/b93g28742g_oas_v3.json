@@ -17,6 +17,8 @@
   "paths": {
     "/reservations": {
       "get": {
+        "description": "List reservations",
+        "summary": "List all available reservations",
         "responses": {
           "200": {
             "description": "200 response",
@@ -57,6 +59,8 @@
         }
       },
       "post": {
+        "description": "Save new reservation",
+        "summary": "Save new reservation if slot is available",
         "responses": {
           "200": {
             "description": "200 response",
@@ -97,6 +101,8 @@
         }
       },
       "options": {
+        "description": "Check path",
+        "summary": "Check path for availability",
         "responses": {
           "200": {
             "description": "200 response",
@@ -147,6 +153,8 @@
     },
     "/tables": {
       "get": {
+        "description": "List tables",
+        "summary": "List all available tables",
         "responses": {
           "200": {
             "description": "200 response",
@@ -187,6 +195,8 @@
         }
       },
       "post": {
+        "description": "Save new table",
+        "summary": "Save new table with defined fields",
         "responses": {
           "200": {
             "description": "200 response",
@@ -227,6 +237,8 @@
         }
       },
       "options": {
+        "description": "Check path",
+        "summary": "Check path for availability",
         "responses": {
           "200": {
             "description": "200 response",
@@ -277,6 +289,8 @@
     },
     "/signin": {
       "post": {
+        "description": "Sign in User",
+        "summary": "Sign in User using email and password",
         "responses": {
           "200": {
             "description": "200 response",
@@ -312,6 +326,8 @@
         }
       },
       "options": {
+        "description": "Check path",
+        "summary": "Check path for availability",
         "responses": {
           "200": {
             "description": "200 response",
@@ -362,6 +378,8 @@
     },
     "/signup": {
       "post": {
+        "description": "Sign up User",
+        "summary": "Sign up new User with additional info",
         "responses": {
           "200": {
             "description": "200 response",
@@ -397,6 +415,8 @@
         }
       },
       "options": {
+        "description": "Check path",
+        "summary": "Check path for availability",
         "responses": {
           "200": {
             "description": "200 response",
@@ -447,6 +467,8 @@
     },
     "/tables/{tableid}": {
       "get": {
+        "description": "Get table info",
+        "summary": "Get all information about specific table",
         "parameters": [
           {
             "name": "tableid",
@@ -497,6 +519,8 @@
         }
       },
       "options": {
+        "description": "Check path",
+        "summary": "Check path for availability",
         "parameters": [
           {
             "name": "tableid",
@@ -570,8 +594,8 @@
         "in": "header",
         "x-amazon-apigateway-authtype": "cognito_user_pools",
         "x-amazon-apigateway-authorizer": {
-          "providerARNs": [
-            "arn:aws:cognito-idp:eu-central-1:905418349556:userpool/eu-central-1_TA99m0HqF"
+          "x-syndicate-cognito-userpool-names": [
+            "cognito_userpool_name"
           ],
           "type": "cognito_user_pools"
         }
