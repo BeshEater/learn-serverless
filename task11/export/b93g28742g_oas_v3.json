@@ -32,7 +32,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/ReservationList"
                 }
               }
             }
@@ -67,6 +67,16 @@
       "post": {
         "description": "Save new reservation",
         "summary": "Save new reservation if slot is available",
+        "requestBody": {
+          "description": "Save new reservation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reservation"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "200 response",
@@ -80,7 +90,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/ReservationId"
                 }
               }
             }
@@ -325,6 +335,16 @@
       "post": {
         "description": "Sign in User",
         "summary": "Sign in User using email and password",
+        "requestBody": {
+          "description": "Sign in for existing User",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignIn"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "200 response",
@@ -338,7 +358,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Empty"
+                  "$ref": "#/components/schemas/AccessToken"
                 }
               }
             }
@@ -417,6 +437,16 @@
       "post": {
         "description": "Sign up User",
         "summary": "Sign up new User with additional info",
+        "requestBody": {
+          "description": "Sign up for new User",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUp"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "200 response",
@@ -682,8 +712,119 @@
           "minOrder": {
             "type": "integer",
             "example": 10,
-            "description": "table deposit required to book it",
-            "required": false
+            "description": "table deposit required to book it"
+          }
+        }
+      },
+      "SignUp": {
+        "description": "A simple Sign up object",
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "Jack",
+            "description": "First name"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Smith",
+            "description": "Last name"
+          },
+          "email": {
+            "type": "string",
+            "example": "jack@example.com",
+            "description": "Valid email"
+          },
+          "password": {
+            "type": "string",
+            "example": "twso-123_ASD*sfU",
+            "description": "Valid 12+ chars password"
+          }
+        }
+      },
+      "SignIn": {
+        "description": "A simple Sign in object",
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "jack@example.com",
+            "description": "Valid email"
+          },
+          "password": {
+            "type": "string",
+            "example": "twso-123_ASD*sfU",
+            "description": "Valid 12+ chars password"
+          }
+        }
+      },
+      "AccessToken": {
+        "description": "A simple Access token object",
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "example": "eyJraWQiOiJTc2J3V1RhNWZPR25aaXp3VUVhU0dEUEkwMnJuckxpTENUWTVVM2dXK0RNPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJiM2E0ODhlMi0zMGExLTcwMGYtNmQ4Yi1jZTIwZWE0YjMzZDkiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb21cL2V1LWNlbnRyYWwtMV9sa082aW12OE0iLCJjb2duaXRvOnVzZXJuYW1lIjoiYjNhNDg4ZTItMzBhMS03MDBmLTZkOGItY2UyMGVhNGIzM2Q5Iiwib3JpZ2luX2p0aSI6ImI5MjNkYWE0LTg3YzctNDU4NS05YTU2LTYxNjNlMjYyNWQzMSIsImF1ZCI6IjRla3ZqdDlrOW05cDB2cWh1Z2sxajE4a2pkIiwiZXZlbnRfaWQiOiIwMWY0ZGUwMi1lNzkzLTQyMGMtYjgwYy1iZjU2ODY1OTM4MTkiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTcxNTg4Nzg4NCwiZXhwIjoxNzE1ODkxNDg0LCJpYXQiOjE3MTU4ODc4ODQsImp0aSI6ImE1MDE0ODViLWQzOWQtNDdkZC1iNjhmLTRiMDc3YmUyZmU2MCIsImVtYWlsIjoia2VrQHRlay5jb20ifQ.uatjQF9tJXhr0UtOKAAbJjVbIdK2CrmNeeo1NEy22E9DwYMh7Gmszq_ikZm1cNuS8jwLBFbTZEWh2WY2HzeHVgRFLqF92k6rZG4Fe1dIkoyj0G8VQfHaR0cTmVQh84B5k8_tN2u0g7l9QchTX0zaT9FiexwNAphlUwpuE9-EWkP_VojRYtSlebiLsLh7wkb762fDOrRHOP3oUlSuscv5CtTCXry25WUF7XYfwIiyM4Qt2teVUDaUfBlW8bAZ8fk9B7wAEnlXz5zxBQnWNmxRFwo7me9kdpDgXKqtVYITJz9cHSBrM-63xCn0K9aPazw9LUycau-0Lhq7EFOdy_37dA",
+            "description": "Access token to use in Authorization header (don't forget to add Bearer in front)"
+          }
+        }
+      },
+      "ReservationList": {
+        "description": "List of Reservations",
+        "type": "object",
+        "properties": {
+          "reservations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reservation"
+            }
+          }
+        }
+      },
+      "Reservation": {
+        "description": "A simple Reservation object",
+        "type": "object",
+        "properties": {
+          "tableNumber": {
+            "type": "integer",
+            "example": 10,
+            "description": "Table number"
+          },
+          "clientName": {
+            "type": "string",
+            "example": "Jack Smith",
+            "description": "Client full name"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "+851765987",
+            "description": "Client phone number"
+          },
+          "date": {
+            "type": "string",
+            "example": "2024-12-31",
+            "description": "Date of reservation in yyyy-MM-dd format"
+          },
+          "slotTimeStart": {
+            "type": "string",
+            "example": "13:00",
+            "description": "Slot time start in HH:MM format"
+          },
+          "slotTimeEnd": {
+            "type": "string",
+            "example": "13:00",
+            "description": "Slot time end in HH:MM format"
+          }
+        }
+      },
+      "ReservationId": {
+        "description": "A simple Reservation id object",
+        "type": "object",
+        "properties": {
+          "reservationId": {
+            "type": "string",
+            "example": "f078600a-a19c-4a4d-b165-9815473910cb",
+            "description": "Reservation id"
           }
         }
       }
