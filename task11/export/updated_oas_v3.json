@@ -528,13 +528,13 @@
         }
       }
     },
-    "/tables/{tableid}": {
+    "/tables/{tableId}": {
       "get": {
         "description": "Get table info",
         "summary": "Get all information about specific table",
         "parameters": [
           {
-            "name": "tableid",
+            "name": "tableId",
             "in": "path",
             "required": true,
             "schema": {
@@ -592,7 +592,7 @@
         "summary": "Check path for availability",
         "parameters": [
           {
-            "name": "tableid",
+            "name": "tableId",
             "in": "path",
             "required": true,
             "schema": {

@@ -58,8 +58,8 @@ public class Apihandler implements RequestHandler<APIGatewayProxyRequestEvent, A
 					responseEvent = tableService.handleCreateTableRequest(gatewayEvent);
 				}
 			}
-			if (pathParameters != null && pathParameters.get("tableid") != null) {
-				var tableId = Long.valueOf(gatewayEvent.getPathParameters().get("tableid"));
+			if (pathParameters != null && pathParameters.get("tableId") != null) {
+				var tableId = Long.valueOf(gatewayEvent.getPathParameters().get("tableId"));
 				responseEvent = tableService.handleGetTableRequest(tableId);
 			}
 		}
